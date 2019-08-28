@@ -8,5 +8,6 @@ public interface ICategoryService {
 
     ServerResponse<String> addCategory(String categoryName,Integer parentId);
     ServerResponse<List<Category>> selectCategoryChildrenByParentId(Integer id);
+    ServerResponse<String> updateCategory(Category category);
 
 }

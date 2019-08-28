@@ -28,17 +28,36 @@ public class ICategoryServiceImpl implements ICategoryService {
      * @return
      */
     @Override
-    public ServerResponse<String> addCategory(String categoryName,Integer parentId){
+    public ServerResponse<String> addCategory( String categoryName,Integer parentId){
         Category category =new Category();
         category.setName(categoryName);
         category.setParentId(parentId);
-        int count = categoryMapper.insertSelective(category);
+        category.setStatus(true);
+        int count = categoryMapper.selectByNameAndParentId(categoryName,parentId);
+        if(count>0){
+            return ServerResponse.createByErrorMessage("存在相同分类");
+        }
+        count = categoryMapper.insert(category);
         if(count>0){
             return ServerResponse.createBySuccessMessage("新增成功");
         }
         return ServerResponse.createByErrorMessage("新增失败");
 
 
+    }
+
+    /**
+     * 修改分类
+     * @param category
+     * @return
+     */
+    @Override
+    public ServerResponse<String> updateCategory(Category category){
+        int resultCount = categoryMapper.updateByPrimaryKeySelective(category);
+        if(resultCount>0){
+            return ServerResponse.createBySuccessMessage("修改成功");
+        }
+        return ServerResponse.createByErrorMessage("修改失败");
     }
 
     /**

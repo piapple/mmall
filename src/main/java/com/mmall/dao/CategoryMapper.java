@@ -14,6 +14,9 @@ public interface CategoryMapper {
 
     Category selectByPrimaryKey(Integer id);
 
+
+    int selectByNameAndParentId(@Param("categoryName") String categoryName,@Param("parentId") Integer parentId);
+
     int updateByPrimaryKeySelective(Category record);
 
     int updateByPrimaryKey(Category record);
